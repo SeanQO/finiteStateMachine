@@ -48,8 +48,8 @@
                                                 <Font size="30.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox prefWidth="30.0" promptText="A" />
-                                          <ComboBox prefWidth="30.0" promptText="A" />
+                                          <ComboBox prefWidth="30.0" />
+                                          <ComboBox prefWidth="30.0" />
                                           <RadioButton mnemonicParsing="false" text="acceptance state" />
                                        </children>
                                     </HBox>

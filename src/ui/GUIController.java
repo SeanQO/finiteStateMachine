@@ -19,13 +19,32 @@ public class GUIController {
 		lastStateL = 'A';
 	}
 	
+	public void initialize() {
+		((ComboBox<Character>) ((HBox) vbox.getChildren().get(1)).getChildren().get(1)).setValue('A');
+		((ComboBox<Character>) ((HBox) vbox.getChildren().get(1)).getChildren().get(2)).setValue('A');
+	}
 	
+	@SuppressWarnings("unchecked")
 	private void updateComboBoxes() {
 		for (int i = 1; i < vbox.getChildren().size(); i++) {
+			char selectedOne = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getValue();
+			char selectedTwo = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getValue();
+			((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getItems().clear();
+			((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().clear();
+			
 			for (int j = 'A'; j <= lastStateL; j++) {
 				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getItems().add((char)j);
 				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().add((char)j);
 			}
+			
+			if (selectedOne <= lastStateL) {
+				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).setValue(selectedOne);
+			}
+			
+			if (selectedTwo <= lastStateL) {
+				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).setValue(selectedTwo);
+			}
+			
 		}
 		
 	}
@@ -42,6 +61,8 @@ public class GUIController {
 			stateLetter.setPrefWidth(35);
 			ComboBox<Character> ceroSuccesor = new ComboBox<>();
 			ComboBox<Character> oneSuccesor = new ComboBox<>();
+			ceroSuccesor.setValue(lastStateL);
+			oneSuccesor.setValue(lastStateL);
 			RadioButton acceptance = new RadioButton("Acceptance state");
 			
 			newHBox.getChildren().addAll(stateLetter,ceroSuccesor,oneSuccesor,acceptance);
@@ -61,6 +82,7 @@ public class GUIController {
 		if (vbox.getChildren().size() -1 > 1) {
 			vbox.getChildren().remove(vbox.getChildren().size() - 1);
 			lastStateL --;
+			updateComboBoxes();
 		}
 		
 	}
