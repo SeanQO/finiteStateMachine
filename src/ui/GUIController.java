@@ -26,9 +26,17 @@ public class GUIController {
 	
 	@SuppressWarnings("unchecked")
 	private void updateComboBoxes() {
+		char selectedOne = ' ';
+		char selectedTwo = ' ';
 		for (int i = 1; i < vbox.getChildren().size(); i++) {
-			char selectedOne = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getValue();
-			char selectedTwo = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getValue();
+			if (((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getValue() != null) {
+				selectedOne = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getValue();
+			}
+			
+			if (((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getValue() != null) {
+				selectedTwo = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getValue();
+			}
+
 			((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getItems().clear();
 			((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().clear();
 			
@@ -37,11 +45,11 @@ public class GUIController {
 				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().add((char)j);
 			}
 			
-			if (selectedOne <= lastStateL) {
+			if (selectedOne != ' ' && selectedOne <= lastStateL) {
 				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).setValue(selectedOne);
 			}
 			
-			if (selectedTwo <= lastStateL) {
+			if (selectedTwo != ' ' && selectedTwo <= lastStateL) {
 				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).setValue(selectedTwo);
 			}
 			
