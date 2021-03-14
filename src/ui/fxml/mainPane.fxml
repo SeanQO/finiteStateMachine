@@ -62,7 +62,7 @@
                   <VBox alignment="CENTER" prefHeight="150.0" prefWidth="400.0" spacing="20.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#addState" text="Add state" />
-                        <Button mnemonicParsing="false" text="Remove state" />
+                        <Button mnemonicParsing="false" onAction="#removeState" text="Remove state" />
                         <Button mnemonicParsing="false" text="Finish automata" />
                      </children>
                   </VBox>

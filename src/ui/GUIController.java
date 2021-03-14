@@ -43,6 +43,14 @@ public class GUIController {
 		
 		
 	}
+	
+	@FXML
+	void removeState() {
+		if (vbox.getChildren().size() -1 > 1) {
+			vbox.getChildren().remove(vbox.getChildren().size() - 1);
+		}
+		
+	}
 
 	
 }
