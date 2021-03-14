@@ -52,7 +52,8 @@ public class GUIController {
 			if (selectedTwo != ' ' && selectedTwo <= lastStateL) {
 				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).setValue(selectedTwo);
 			}
-			
+			selectedOne = ' ';
+			selectedTwo = ' ';
 		}
 		
 	}
