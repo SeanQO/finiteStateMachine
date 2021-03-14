@@ -11,9 +11,6 @@ import javafx.scene.layout.VBox;
 public class GUIController {
 	@FXML
 	private VBox vbox;
-
-	@FXML
-	private HBox hboxA;
 	
 	private Character lastStateL;
 	
@@ -28,15 +25,16 @@ public class GUIController {
 			HBox newHBox = new HBox(4);
 			
 			Label stateLetter = new Label((char) (lastStateL + 1) + "");
-			lastStateL = (char) (lastStateL + 1);
+			lastStateL ++;
 			stateLetter.setStyle("-fx-font: 30 arial;");
+			stateLetter.setPrefWidth(35);
 			ComboBox<Character> ceroSuccesor = new ComboBox<>();
 			ComboBox<Character> oneSuccesor = new ComboBox<>();
 			RadioButton acceptance = new RadioButton("Acceptance state");
 			
 			newHBox.getChildren().addAll(stateLetter,ceroSuccesor,oneSuccesor,acceptance);
 			
-			newHBox.setSpacing(hboxA.getSpacing());
+			newHBox.setSpacing(40);
 			newHBox.setAlignment(Pos.CENTER);
 			vbox.getChildren().add(newHBox);
 		}
@@ -48,6 +46,7 @@ public class GUIController {
 	void removeState() {
 		if (vbox.getChildren().size() -1 > 1) {
 			vbox.getChildren().remove(vbox.getChildren().size() - 1);
+			lastStateL --;
 		}
 		
 	}
