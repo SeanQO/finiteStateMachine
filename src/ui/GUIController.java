@@ -2,6 +2,7 @@ package ui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -17,7 +18,18 @@ public class GUIController {
 	public GUIController() {
 		lastStateL = 'A';
 	}
-
+	
+	
+	private void updateComboBoxes() {
+		for (int i = 1; i < vbox.getChildren().size(); i++) {
+			for (int j = 'A'; j <= lastStateL; j++) {
+				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getItems().add((char)j);
+				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().add((char)j);
+			}
+		}
+		
+	}
+	
 	@FXML
 	void addState(ActionEvent event) {
 		
@@ -37,6 +49,8 @@ public class GUIController {
 			newHBox.setSpacing(40);
 			newHBox.setAlignment(Pos.CENTER);
 			vbox.getChildren().add(newHBox);
+			
+			updateComboBoxes();
 		}
 		
 		
