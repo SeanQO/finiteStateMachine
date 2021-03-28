@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.NodeList;
+
 public class Moore extends Automata{
 	
 	public Moore(List<Node> nodes) {
@@ -38,16 +40,22 @@ public class Moore extends Automata{
 		
 		for (int i = 0; i < size; i++) {
 			List<Node> partTemp = new ArrayList<>();
-			for (int j = 1; j < pki.get(i).size(); j++) {
+			int nodeListSize = pki.get(i).size();
+			
+			for (int j = 1; j < nodeListSize; j++) {
 				if ((pki.get(i).get(0).getDestinationCero()).areEquivalent(pki.get(i).get(j).getDestinationCero(),pk) ) {
 					if (!(pki.get(i).get(0).getDestinationOne()).areEquivalent(pki.get(i).get(j).getDestinationOne(),pk) ) {
 						partTemp.add(pki.get(i).get(j));
 						pki.get(i).remove(pki.get(i).get(j));
-						
+						//.remove reduce size of array, reduce j to iterate on the same index.
+						nodeListSize --;
+						j--;
 					}
 				}else {
 					partTemp.add(pki.get(i).get(j));
 					pki.get(i).remove(pki.get(i).get(j));
+					nodeListSize --;
+					j--;
 				}
 				
 			}
