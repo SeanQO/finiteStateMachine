@@ -8,15 +8,21 @@ public class Node {
 	private boolean output;
 	private List<Node> destination;
 	private boolean visited;
+	private Character state;
 	
 	/**
 	 * Constructs a new node based on its value
 	 * @param value Value of the Node
 	 */
-	public Node(List<Node> destination) {
+	public Node(char state, List<Node> destination) {
+		this.state = state;
 		this.destination = destination;
 		visited = false;
 		
+	}
+	
+	public Character getState() {
+		return state;
 	}
 	
 	public void setVisited(boolean input) {
@@ -49,6 +55,14 @@ public class Node {
 	
 	public Node getDestinationCero() {
 		return destination.get(1);
+	}
+	
+	public Character getDestinationOneState() {
+		return destination.get(0).getState();
+	}
+	
+	public Character getDestinationCeroState() {
+		return destination.get(1).getState();
 	}
 
 	public void setDestination(List<Node> succesor) {

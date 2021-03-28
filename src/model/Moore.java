@@ -31,6 +31,7 @@ public class Moore extends Automata{
 	}
 	
 	//cambios: otro if pa comparar destination one, y un exit para que el paso recursivo no afecte el tamaño de pki.
+	//el if compara el estado de los nodos, el estado es el caracter de cada nodo.
 	public List<List<Node>> partition(List<List<Node>> pk){
 		List<List<Node>> pki = pk;
 		int size = pki.size();
@@ -38,8 +39,8 @@ public class Moore extends Automata{
 		for (int i = 0; i < size; i++) {
 			List<Node> partTemp = new ArrayList<>();
 			for (int j = 1; j < pki.get(i).size(); j++) {
-				if (!(pki.get(i).get(0).getDestinationCero()).equals(pki.get(i).get(j).getDestinationCero()) ) {
-					if (!(pki.get(i).get(0).getDestinationOne()).equals(pki.get(i).get(j).getDestinationOne()) ) {
+				if (!(pki.get(i).get(0).getDestinationCeroState()).equals(pki.get(i).get(j).getDestinationCeroState()) ) {
+					if (!(pki.get(i).get(0).getDestinationOneState()).equals(pki.get(i).get(j).getDestinationOneState()) ) {
 						partTemp.add(pki.get(i).get(j));
 						pki.get(i).remove(pki.get(i).get(j));
 						
@@ -60,7 +61,7 @@ public class Moore extends Automata{
 		for (int i = 0; i < pk.size() && !exit ; i++) {
 			
 			for (int j = 0; j < pk.get(i).size() && !exit; j++) {
-				if ( !pk.get(i).get(j).equals(pki.get(i).get(j)) ) {
+				if ( !pk.get(i).get(j).getState().equals(pki.get(i).get(j).getState()) ) {
 					exit = true;
 				}
 				
