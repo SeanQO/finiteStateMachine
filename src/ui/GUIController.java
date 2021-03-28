@@ -1,5 +1,9 @@
 package ui;
+import java.util.List;
+
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -14,6 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.Automata;
+import model.Mealy;
+import model.Moore;
+import model.Node;
 
 public class GUIController {
 	
@@ -39,16 +47,13 @@ public class GUIController {
 	
 	private boolean mooreSelected;
 	
+	private Automata automata;
+	
 	public GUIController() {
+		automata = null;
 		lastStateL = 'A';
 		mooreSelected = false;
 	}
-	
-	
-	public void initialize() {
-		
-	}
-	
 	
 	private void updateComboBoxes() {
 		if (mooreSelected) {
@@ -212,11 +217,78 @@ public class GUIController {
 	
 	@FXML
 	void finishAutomata(ActionEvent event) {
-		BAddState.setDisable(true);
+		/*BAddState.setDisable(true);
 		BRemoveState.setDisable(true);
 		BFinishA.setDisable(true);
-		mainBorderPane.setCenter(mainAnchorPane);	
+		mainBorderPane.setCenter(mainAnchorPane);*/
+		if (mooreSelected) {
+			automata = new Moore(mooreMachineInfo());
+		}else {
+			automata = new Mealy(mealyMachineInfo());
+		}
+		
 
+	}
+	
+	private List<Node> mooreMachineInfo() {
+		List<Node> nodes = new ArrayList<Node>();
+		
+		char state = 'A';
+		List<Node> destinationEmpty = new ArrayList<Node>();
+		
+		for (int i = 1; i < vboxMoore.getChildren().size() ; i++) {
+			Node newNode = new Node(state, destinationEmpty, false);	
+			nodes.add(newNode);
+			state ++;
+			
+		}
+		
+		for (int i = 1; i < vboxMoore.getChildren().size(); i++) {
+			
+			for (int j = 1; j < ((HBox) vboxMoore.getChildren().get(i)).getChildren().size(); j++) {
+				
+				switch (j) {
+				case 1:
+					char ceroSuccesorState = ((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).getValue();
+
+					break;
+
+				case 2:
+					char oneSuccesorState = ((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).getValue();
+
+					break;
+					
+				case 3:
+					boolean output = false;
+					if (((ComboBox<Integer>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).getValue() == 1) {
+						output = true;
+					}
+					
+					break;
+				case 4:
+					boolean isAcceptance = ((RadioButton) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).isSelected();
+
+					break;
+					
+				}
+				
+				
+			}
+			
+			
+		}
+		
+		
+		return nodes;
+	}
+	
+	
+	
+	private List<Node> mealyMachineInfo() {
+		List<Node> nodes = new ArrayList<Node>();
+		
+		
+		return nodes;
 	}
 	
 }

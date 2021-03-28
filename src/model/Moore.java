@@ -1,9 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.w3c.dom.NodeList;
+import java.util.List;
 
 public class Moore extends Automata{
 	
@@ -31,9 +30,7 @@ public class Moore extends Automata{
 		
 		return partitionList;
 	}
-	
-	//cambios: otro if pa comparar destination one, y un exit para que el paso recursivo no afecte el tamaño de pki.
-	//el if compara el estado de los nodos, el estado es el caracter de cada nodo.
+
 	public List<List<Node>> partition(List<List<Node>> pk){
 		List<List<Node>> pki = pk;
 		int size = pki.size();
@@ -47,7 +44,6 @@ public class Moore extends Automata{
 					if (!(pki.get(i).get(0).getDestinationOne()).areEquivalent(pki.get(i).get(j).getDestinationOne(),pk) ) {
 						partTemp.add(pki.get(i).get(j));
 						pki.get(i).remove(pki.get(i).get(j));
-						//.remove reduce size of array, reduce j to iterate on the same index.
 						nodeListSize --;
 						j--;
 					}

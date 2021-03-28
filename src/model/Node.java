@@ -15,7 +15,8 @@ public class Node {
 	 * Constructs a new node based on its value
 	 * @param value Value of the Node
 	 */
-	public Node(char state, List<Node> destination) {
+	public Node(char state, List<Node> destination, boolean output) {
+		this.output = output;
 		this.state = state;
 		this.destination = destination;
 		visited = false;
