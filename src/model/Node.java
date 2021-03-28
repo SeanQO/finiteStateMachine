@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Node {
@@ -55,6 +56,19 @@ public class Node {
 	
 	public Node getDestinationCero() {
 		return destination.get(1);
+	}
+	
+	public boolean areEquivalent(Node nodeB, List<List<Node>> pk) {
+	
+		for (List<Node> list : pk) {
+			if (!list.containsAll(Arrays.asList(this.getDestinationCero(),this.getDestinationOne(),
+					nodeB.getDestinationCero(),nodeB.getDestinationOne()))) {
+				return false;
+			}
+			
+		}
+		
+		return true;
 	}
 	
 	public Character getDestinationOneState() {

@@ -39,13 +39,15 @@ public class Moore extends Automata{
 		for (int i = 0; i < size; i++) {
 			List<Node> partTemp = new ArrayList<>();
 			for (int j = 1; j < pki.get(i).size(); j++) {
-				if (!(pki.get(i).get(0).getDestinationCeroState()).equals(pki.get(i).get(j).getDestinationCeroState()) ) {
-					if (!(pki.get(i).get(0).getDestinationOneState()).equals(pki.get(i).get(j).getDestinationOneState()) ) {
+				if ((pki.get(i).get(0).getDestinationCero()).areEquivalent(pki.get(i).get(j).getDestinationCero(),pk) ) {
+					if (!(pki.get(i).get(0).getDestinationOne()).areEquivalent(pki.get(i).get(j).getDestinationOne(),pk) ) {
 						partTemp.add(pki.get(i).get(j));
 						pki.get(i).remove(pki.get(i).get(j));
 						
 					}
-					
+				}else {
+					partTemp.add(pki.get(i).get(j));
+					pki.get(i).remove(pki.get(i).get(j));
 				}
 				
 			}
