@@ -1,67 +1,160 @@
 package ui;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class GUIController {
+	
 	@FXML
-	private VBox vbox;
+    private AnchorPane mainAnchorPane;
+	
+	@FXML
+    private BorderPane mainBorderPane;
+	
+	@FXML
+    private Button BAddState;
+
+    @FXML
+    private Button BRemoveState;
+
+    @FXML
+    private Button BFinishA;
+	
+	@FXML
+	private VBox vboxMoore;
 	
 	private Character lastStateL;
 	
+	private boolean mooreSelected;
+	
 	public GUIController() {
 		lastStateL = 'A';
+		mooreSelected = false;
 	}
 	
-	@SuppressWarnings("unchecked")
+	
 	public void initialize() {
-		((ComboBox<Character>) ((HBox) vbox.getChildren().get(1)).getChildren().get(1)).setValue('A');
-		((ComboBox<Character>) ((HBox) vbox.getChildren().get(1)).getChildren().get(2)).setValue('A');
+		
 	}
 	
-	@SuppressWarnings("unchecked")
+	
 	private void updateComboBoxes() {
-		char selectedOne = ' ';
-		char selectedTwo = ' ';
-		for (int i = 1; i < vbox.getChildren().size(); i++) {
-			if (((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getValue() != null) {
-				selectedOne = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getValue();
-			}
+		if (mooreSelected) {
+			updateMooreComboBoxes();
 			
-			if (((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getValue() != null) {
-				selectedTwo = ((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getValue();
-			}
-
-			((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getItems().clear();
-			((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().clear();
+		}else {
+			updateMealyComboBoxes();
 			
-			for (int j = 'A'; j <= lastStateL; j++) {
-				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).getItems().add((char)j);
-				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).getItems().add((char)j);
-			}
-			
-			if (selectedOne != ' ' && selectedOne <= lastStateL) {
-				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(1)).setValue(selectedOne);
-			}
-			
-			if (selectedTwo != ' ' && selectedTwo <= lastStateL) {
-				((ComboBox<Character>) ((HBox) vbox.getChildren().get(i)).getChildren().get(2)).setValue(selectedTwo);
-			}
-			selectedOne = ' ';
-			selectedTwo = ' ';
 		}
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void updateMooreComboBoxes() {
+		char selectedOne = ' ';
+		char selectedTwo = ' ';
+		int output = -1;
+		
+		for (int i = 1; i < vboxMoore.getChildren().size(); i++) {
+			if (((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(1)).getValue() != null) {
+				selectedOne = ((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(1)).getValue();
+			}
+			
+			if (((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(2)).getValue() != null) {
+				selectedTwo = ((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(2)).getValue();
+			}
+			
+			if (((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(3)).getValue() != null) {
+				output = ((ComboBox<Integer>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(3)).getValue();
+			}
+
+			((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(1)).getItems().clear();
+			((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(2)).getItems().clear();
+			
+			for (int j = 'A'; j <= lastStateL; j++) {
+				((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(1)).getItems().add((char)j);
+				((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(2)).getItems().add((char)j);
+			}
+			
+			if (selectedOne != ' ' && selectedOne <= lastStateL) {
+				((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(1)).setValue(selectedOne);
+			}
+			
+			if (selectedTwo != ' ' && selectedTwo <= lastStateL) {
+				((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(2)).setValue(selectedTwo);
+			}
+			
+			if (output != -1) {
+				((ComboBox<Integer>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(3)).setValue(output);
+			}
+			
+			selectedOne = ' ';
+			selectedTwo = ' ';
+			output = -1;
+		}
+	}
+	
+	private void updateMealyComboBoxes() {
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@FXML
+    void mooreAutomataSelected(ActionEvent event) {
+		mooreSelected = true;
+		BAddState.setDisable(false);
+		BRemoveState.setDisable(false);
+		BFinishA.setDisable(false);
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/moorePane.fxml"));
+			fxmlLoader.setController(this);
+
+			Parent Pane = fxmlLoader.load();
+
+			mainBorderPane.setCenter(Pane);
+			
+			((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(1)).getChildren().get(1)).setValue('A');
+			((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(1)).getChildren().get(2)).setValue('A');
+			((ComboBox<Integer>) ((HBox) vboxMoore.getChildren().get(1)).getChildren().get(3)).setValue(1);
+			((ComboBox<Integer>) ((HBox) vboxMoore.getChildren().get(1)).getChildren().get(3)).getItems().addAll(1,0);
+			
+
+		} catch (IOException ioException) {
+			// TODO: handle exception with an alert that displays the content of the error.
+		}
+		
+    }
+
+	@FXML
+    void mealyAutomataSelected(ActionEvent event) {
+
+    }
+	
 	@FXML
 	void addState(ActionEvent event) {
+		if (mooreSelected) {
+			addStateMoore();
+			
+		}else {
+			addStateMealy();
+			
+		}
 		
+	}
+	
+	private void addStateMoore() {
 		if (lastStateL < 90) {
 			HBox newHBox = new HBox(4);
 			
@@ -71,32 +164,60 @@ public class GUIController {
 			stateLetter.setPrefWidth(35);
 			ComboBox<Character> ceroSuccesor = new ComboBox<>();
 			ComboBox<Character> oneSuccesor = new ComboBox<>();
+			ComboBox<Integer> output = new ComboBox<>();
 			ceroSuccesor.setValue(lastStateL);
 			oneSuccesor.setValue(lastStateL);
+			output.getItems().addAll(1,0);
+			output.setValue(1);
 			RadioButton acceptance = new RadioButton("Acceptance state");
 			
-			newHBox.getChildren().addAll(stateLetter,ceroSuccesor,oneSuccesor,acceptance);
+			newHBox.getChildren().addAll(stateLetter,ceroSuccesor,oneSuccesor,output,acceptance);
 			
-			newHBox.setSpacing(40);
+			newHBox.setSpacing(20);
 			newHBox.setAlignment(Pos.CENTER);
-			vbox.getChildren().add(newHBox);
+			vboxMoore.getChildren().add(newHBox);
 			
-			updateComboBoxes();
+			updateMooreComboBoxes();
 		}
-		
+	}
+	
+	private void addStateMealy() {
 		
 	}
 	
 	@FXML
 	void removeState() {
-		if (vbox.getChildren().size() -1 > 1) {
-			vbox.getChildren().remove(vbox.getChildren().size() - 1);
-			lastStateL --;
-			updateComboBoxes();
+		if (mooreSelected) {
+			removeStateMoore();
+			
+		}else {
+			removeStateMealy();
+			
 		}
 		
 	}
+	
+	private void removeStateMoore() {
+		if (vboxMoore.getChildren().size() -1 > 1) {
+			vboxMoore.getChildren().remove(vboxMoore.getChildren().size() - 1);
+			lastStateL --;
+			updateComboBoxes();
+		}
+	}
+	
+	private void removeStateMealy() {
+		
+	}
+	
+	
+	@FXML
+	void finishAutomata(ActionEvent event) {
+		BAddState.setDisable(true);
+		BRemoveState.setDisable(true);
+		BFinishA.setDisable(true);
+		mainBorderPane.setCenter(mainAnchorPane);	
 
+	}
 	
 }
 
