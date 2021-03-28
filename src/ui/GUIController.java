@@ -1,8 +1,8 @@
 package ui;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -19,6 +19,7 @@ public class GUIController {
 		lastStateL = 'A';
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		((ComboBox<Character>) ((HBox) vbox.getChildren().get(1)).getChildren().get(1)).setValue('A');
 		((ComboBox<Character>) ((HBox) vbox.getChildren().get(1)).getChildren().get(2)).setValue('A');
