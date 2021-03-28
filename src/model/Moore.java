@@ -83,4 +83,14 @@ public class Moore extends Automata{
 	}
 	
 	
+	@Override
+	public String toString() {
+		String nodesState = "";
+		for (Node node : super.getNodes()) {
+			nodesState += node.getState(); 
+		}
+		
+		return nodesState;
+	}
+	
 }

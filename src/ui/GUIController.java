@@ -1,8 +1,10 @@
 package ui;
 import java.util.List;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.event.ActionEvent;
 
@@ -223,18 +225,26 @@ public class GUIController {
 		mainBorderPane.setCenter(mainAnchorPane);*/
 		if (mooreSelected) {
 			automata = new Moore(mooreMachineInfo());
+			//System.out.println(automata.toString());
+			
+			automata.setNodes(automata.relatedMachine());
+
+			//System.out.println(automata.toString());
+			
 		}else {
 			automata = new Mealy(mealyMachineInfo());
+			
 		}
 		
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<Node> mooreMachineInfo() {
 		List<Node> nodes = new ArrayList<Node>();
 		
 		char state = 'A';
-		List<Node> destinationEmpty = new ArrayList<Node>();
+		List<Node> destinationEmpty = new ArrayList<Node>(Arrays.asList(null,null)) ;
 		
 		for (int i = 1; i < vboxMoore.getChildren().size() ; i++) {
 			Node newNode = new Node(state, destinationEmpty, false);	
@@ -242,47 +252,67 @@ public class GUIController {
 			state ++;
 			
 		}
-		
+
+		int nodeIndex = 0;
 		for (int i = 1; i < vboxMoore.getChildren().size(); i++) {
 			
 			for (int j = 1; j < ((HBox) vboxMoore.getChildren().get(i)).getChildren().size(); j++) {
-				
+				int index = 0;
 				switch (j) {
 				case 1:
 					char ceroSuccesorState = ((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).getValue();
-
+					index = getIndexOfNode(ceroSuccesorState, nodes);
+					nodes.get(nodeIndex).setDestinationCero(nodes.get(index));
+					
 					break;
 
 				case 2:
 					char oneSuccesorState = ((ComboBox<Character>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).getValue();
-
+					index = getIndexOfNode(oneSuccesorState, nodes);
+					nodes.get(nodeIndex).setDestinationOne(nodes.get(index));
+					
 					break;
 					
 				case 3:
-					boolean output = false;
 					if (((ComboBox<Integer>) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).getValue() == 1) {
-						output = true;
+						nodes.get(nodeIndex).setOutput(true);
+					}else {
+						nodes.get(nodeIndex).setOutput(false);
+						
 					}
 					
 					break;
 				case 4:
 					boolean isAcceptance = ((RadioButton) ((HBox) vboxMoore.getChildren().get(i)).getChildren().get(j)).isSelected();
-
+					nodes.get(nodeIndex).setAcceptance(isAcceptance);
 					break;
 					
 				}
 				
 				
 			}
+			System.out.println("dest node : " + nodes.get(0).getDestinationCeroState() + nodes.get(0).getDestinationOneState() );
+			System.out.println("dest node " +nodeIndex + ": " + nodes.get(nodeIndex).getDestinationCeroState() + nodes.get(nodeIndex).getDestinationOneState() );
+			
+			++ nodeIndex ;
 			
 			
 		}
 		
-		
+		//System.out.println("dest node0: " + nodes.get(0).getDestinationCeroState() + nodes.get(0).getDestinationOneState() );
 		return nodes;
 	}
 	
-	
+	private int getIndexOfNode(char state, List<Node>nodes) {
+		
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i).getState().equals(state)) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 	
 	private List<Node> mealyMachineInfo() {
 		List<Node> nodes = new ArrayList<Node>();

@@ -9,6 +9,7 @@ public class Node {
 	private boolean output;
 	private List<Node> destination;
 	private boolean visited;
+	private boolean acceptance;
 	private Character state;
 	
 	/**
@@ -23,6 +24,20 @@ public class Node {
 		
 	}
 	
+	
+	
+	public boolean isAcceptance() {
+		return acceptance;
+	}
+
+
+
+	public void setAcceptance(boolean acceptance) {
+		this.acceptance = acceptance;
+	}
+
+
+
 	public Character getState() {
 		return state;
 	}
@@ -52,11 +67,11 @@ public class Node {
 	}
 
 	public Node getDestinationOne() {
-		return destination.get(0);
+		return destination.get(1);
 	}
 	
 	public Node getDestinationCero() {
-		return destination.get(1);
+		return destination.get(0);
 	}
 	
 	public boolean areEquivalent(Node nodeB, List<List<Node>> pk) {
@@ -73,13 +88,21 @@ public class Node {
 	}
 	
 	public Character getDestinationOneState() {
-		return destination.get(0).getState();
+		return destination.get(1).getState();
 	}
 	
 	public Character getDestinationCeroState() {
-		return destination.get(1).getState();
+		return destination.get(0).getState();
 	}
-
+	
+	public void setDestinationCero(Node ceroSuccesor) {
+		destination.set(0, ceroSuccesor);
+	}
+	
+	public void setDestinationOne(Node oneSuccesor) {
+		destination.set(1, oneSuccesor);
+	}
+	
 	public void setDestination(List<Node> succesor) {
 		this.destination = succesor;
 	}
